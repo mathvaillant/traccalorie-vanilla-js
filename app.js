@@ -34,6 +34,7 @@ const ItemCtrl = (() => {
 const UICtrl = (() => {
   const UISelectors = {
     itemList: '#item-list',
+    addBtn: '.add-btn',
   }
 
   // Public Methods
@@ -52,14 +53,33 @@ const UICtrl = (() => {
       // Insert list items
       document.querySelector(UISelectors.itemList).innerHTML = html
     },
-    addNewItem: (item) => {
-      // ...
+    getSelectors: function () {
+      return UISelectors
     },
   }
 })()
 
 // App ControlLer - Initial event listeners
 const App = ((ItemCtrl, UICtrl) => {
+  // Load event Listeners
+  const loadEventListeners = function () {
+    // Get UI Selectors
+    const UISelectors = UICtrl.getSelectors()
+
+    // Add item event
+    document
+      .querySelector(UISelectors.addBtn)
+      .addEventListener('click', itemAddSubmit)
+  }
+
+  // Add item submit
+  const itemAddSubmit = function (e) {
+    // Get form input from UI Controller
+    console.log('Add')
+
+    e.preventDefault()
+  }
+
   // Public methods
   return {
     init: function () {
@@ -67,6 +87,9 @@ const App = ((ItemCtrl, UICtrl) => {
       const items = ItemCtrl.getItems()
       // Populate list with items
       UICtrl.populateItemList(items)
+
+      // Load event listeners
+      loadEventListeners()
     },
   }
 })(ItemCtrl, UICtrl)
